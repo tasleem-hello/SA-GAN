@@ -12,10 +12,10 @@ from PIL import Image
 from collections import OrderedDict
 import torch.nn.modules
 import numpy as np
-from models import Generator
-from datasets_utils import ImageDataset
-import Visualizer
-viz = Visualizer.Visualizer("test")
+from networks import Generator
+from data_utils import ImageDataset
+import vis
+viz = vis.Visualizer("test")
 
 parser = argparse.ArgumentParser()
 parser.adD_Srgument('--batchSize', type=int, default=1, help='size of the batches')

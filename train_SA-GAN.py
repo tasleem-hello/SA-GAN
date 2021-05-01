@@ -9,15 +9,15 @@ from torch.autograd import Variable
 from PIL import Image
 import torch
 import os
-from models import Generator
-from models import Discriminator
-from util import ReplayBuffer
-from util import LambdaLR
-from util import Logger
-from util import weights_init_normal
-from datasets_utils import ImageDataset
+from networks import Generator
+from networks import Discriminator
+from utils import ReplayBuffer
+from utils import LambdaLR
+from utils import Logger
+from utils import weights_init_normal
+from data_utils import ImageDataset
 from Model_VGG19 import gram_matrix
-from Visualizer import Visualizer
+from vis import Visualizer
 VIS = Visualizer("SA-GAN")
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
@@ -250,9 +250,6 @@ for epoch in range(opt.epoch, opt.n_epochs):
         pred_real,_ = netD_S(real_T)
         loss_D_real = criterion_GAN(pred_real, target_real)
 
-
-
-
         #Fake loss
 
         pred_fake,_ = netD_S(fake_T.detach())
@@ -301,7 +298,7 @@ for epoch in range(opt.epoch, opt.n_epochs):
             VIS.img(name="real_T", img_=real_T)
             VIS.img(name="fake", img_=fake_T)
 
-    # Save models checkpoints and early stop
+    # Save  checkpoints and early stop
 
     if loss_GAN_S2T < loss_Test:
         loss_Test = loss_GAN_S2T
@@ -311,7 +308,6 @@ for epoch in range(opt.epoch, opt.n_epochs):
 
     if early_stop >= opt.threshold:
         break
-
 
     torch.save(netG_S2T.state_dict(), 'output/netG_S2T_{}.pth'.format(opt.Time))
 
